@@ -188,6 +188,9 @@ document.querySelector(".next-button").addEventListener("click", function() {
 });
 
 function addGuess(id, guess) {
+  if(document.getElementById(id)){
+    return;
+  }
   const div = document.createElement('div');
   div.className = 'guess';
   div.id = id;
