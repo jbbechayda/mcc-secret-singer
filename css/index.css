@@ -47,6 +47,11 @@ body, html {
     background-color: white;
 }
 
+.qr-code-img {
+  height: 100%;
+  width: 100%;
+}
+
 .button {
     flex: 1;
 }
