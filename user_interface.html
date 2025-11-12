@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Singer: Player</title>
+
+    <link rel="stylesheet" href="./css/user_interface.css">
+    <link rel="icon" href="./images/logo_MCC.png">
+</head>
+<body>
+    <div class="container">
+        <div class="player-selection">
+            <div class="title">Guess the<br>SECRET SINGER</div>
+            <div class="select-player">
+                <div class="label">Select your name</div>
+                <div class="value">
+                    <select name="players" id="players">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="error-message"></div>
+            </div>
+            <div class="start">
+                <button class="start-button">PLAY</button>
+            </div>
+        </div>
+        <button class="back-btn">BACK</button>
+        <!-- GAME_START -->
+        <div class="game-screen game-start">
+            <div class="header"></div>
+            <div class="game"></div>
+        </div>
+
+        <!-- IDLE -->
+        <div class="game-screen idle">
+            <div class="header"></div>
+            <div class="game"></div>
+        </div>
+
+        <!-- SINGING -->
+        <div class="game-screen singing">
+            <div class="header"></div>
+            <div class="game">
+                <div class="label"></div>
+                <div class="value">
+                    <select name="singer-choice" id="singer-choice">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <button class="submit-button">SUBMIT</button>
+                <div class="pick"></div>
+            </div>
+        </div>
+
+        <!-- WINNER -->
+        <div class="game-screen winner">
+            <div class="header"></div>
+            <div class="game"></div>
+        </div>
+
+        <!-- GAME_OVER -->
+        <div class="game-screen game-over">
+            <div class="header"></div>
+            <div class="game"></div>
+        </div>
+    </div>
+    <script type="module" src="./js/user_interface.js"></script>
+</body>
+</html>

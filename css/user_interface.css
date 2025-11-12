@@ -1,0 +1,108 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: #161618;
+    font-family: Helvetica;
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .title, .select-player, .start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  .title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: none;
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: white;
+    display: none;
+    cursor: pointer;
+  }
+
+  .select-player {
+    justify-content: start;
+  }
+
+  .label, .pick {
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+  }
+
+  #players, #singer-choice {
+    font-size: 17px;
+    padding: 10px 10px;
+    margin: 20px 0;
+  }
+
+  .start-button, .submit-button {
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    background-color: green;
+    cursor: pointer;
+  }
+
+  .game-screen {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    width: 90%;
+    font-weight: bold;
+    align-items: center;
+  }
+
+  .header {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  .game {
+    flex: 5;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .error-message {
+    color: yellow;
+    margin: 5px 0px;
+  }
