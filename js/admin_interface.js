@@ -133,7 +133,7 @@ document.querySelector(".stop-button").addEventListener("click", async function(
     for (const guessDiv of guessDivs) {
       let checkDiv = document.getElementById(`check_${guessDiv.id}`);
       
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 500));
       
       if (guessDiv.id === `${winner.user_id}_${winner.guess_id}`) {
           checkDiv.textContent = '✔';
@@ -147,6 +147,18 @@ document.querySelector(".stop-button").addEventListener("click", async function(
       } else {
           checkDiv.style.display = 'block';
       }
+      guessDiv.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }
+  else {
+    for (const guessDiv of guessDivs) {
+      let checkDiv = document.getElementById(`check_${guessDiv.id}`);
+      
+      await new Promise(r => setTimeout(r, 500));
+      checkDiv.style.display = 'block';
       guessDiv.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
