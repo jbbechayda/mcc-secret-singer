@@ -5,10 +5,10 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const images = [
-    "../images/singer_female_whole.png",
-    "../images/singer_male_whole.png",
-    "../images/singer_female_half.png",
-    "../images/singer_male_half.png"
+    "./images/singer_female_whole.png",
+    "./images/singer_male_whole.png",
+    "./images/singer_female_half.png",
+    "./images/singer_male_half.png"
   ];
 
 let index = 0;
@@ -165,7 +165,7 @@ document.querySelector(".stop-button").addEventListener("click", async function(
   else {
     await supabase
     .from('winners')
-    .update({ player_id: 0 })
+    .update({ player_id: 1 })
     .eq('singer_num', current_singer.singer_num)
     .eq('singer_id', current_singer.id);
   }
