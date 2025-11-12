@@ -109,7 +109,34 @@ document.getElementById("players").addEventListener("change", function() {
   }
 });
 
-document.querySelector(".back-btn").addEventListener("click", function() {
+document.querySelector(".back-btn").addEventListener("click", async function() {
+  if (!player_id) return;
+
+  const url = `${supabaseUrl}/rest/v1/attendees?id=eq.${player_id}`;
+  const body = JSON.stringify({ is_playing: 'N' });
+
+  try {
+    navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
+  } catch (e) {
+    // ignore
+  }
+
+  fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'apikey': supabaseKey,
+      'Authorization': `Bearer ${supabaseKey}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body,
+    keepalive: true
+  }).catch((err) => {
+    console.warn('unload update failed', err);
+  });
+
+  await new Promise(r => setTimeout(r, 1000));
+
   location.reload(true);
 });
 
