@@ -128,12 +128,13 @@ document.querySelector(".stop-button").addEventListener("click", async function(
 
   //trace the winner
   let guessDivs = document.querySelectorAll('.guess');
+  let winner_id = 1;
   if (winner){
     for (const guessDiv of guessDivs) {
       let checkDiv = document.getElementById(`check_${guessDiv.id}`);
       
       await new Promise(r => setTimeout(r, 1000));
-
+      
       if (guessDiv.id === `${winner.user_id}_${winner.guess_id}`) {
           checkDiv.textContent = '✔';
           checkDiv.style.color = 'white';
@@ -141,17 +142,7 @@ document.querySelector(".stop-button").addEventListener("click", async function(
           checkDiv.style.display = 'block';
 
         // record the winner
-        await supabase
-        .from('winners')
-        .update({ player_id: winner.user_id })
-        .eq('singer_num', current_singer.singer_num)
-        .eq('singer_id', current_singer.id);
-
-        await supabase
-        .from('secret_singers')
-        .update({ is_done: 'Y' })
-        .eq('id', current_singer.id);
-
+        winner_id = winner.user_id;
         break;
       } else {
           checkDiv.style.display = 'block';
@@ -162,13 +153,18 @@ document.querySelector(".stop-button").addEventListener("click", async function(
       });
     }
   }
-  else {
-    await supabase
+    
+  await supabase
+    .from('secret_singers')
+    .update({ is_done: 'Y' })
+    .eq('id', current_singer.id);
+    
+  await supabase
     .from('winners')
-    .update({ player_id: 1 })
+    .update({ player_id: winner_id })
     .eq('singer_num', current_singer.singer_num)
     .eq('singer_id', current_singer.id);
-  }
+    
   document.querySelector('.next-button').style.display = 'block';
 });
 
