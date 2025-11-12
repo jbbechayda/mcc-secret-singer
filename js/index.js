@@ -15,6 +15,6 @@ document.querySelector(".start-button").addEventListener("click", async function
     document.querySelector(".loader").style.display = 'block';
 
       setTimeout(() => {
-        window.location.href = "../admin_interface.html";
+        window.location.href = "./admin_interface.html";
       }, 2000);
 });
