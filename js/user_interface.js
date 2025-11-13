@@ -24,6 +24,7 @@ let current_game_status;
 let game_status;
 
 let mainInterval;
+let heartbeatInterval;
 let fetchWinnerInterval;
 
 let {data: singers, error} = await supabase
@@ -34,6 +35,13 @@ let {data: singers, error} = await supabase
   .limit(1);
 
   current_singer = singers[0];
+
+
+const cutoff = new Date(Date.now() - 30000).toISOString();
+await supabase
+  .from('attendees')
+  .update({ is_playing: 'N' })
+  .lt('last_seen', cutoff);
 
 document.querySelector(".start-button").addEventListener("click", async function() {
   
@@ -65,6 +73,8 @@ document.querySelector(".start-button").addEventListener("click", async function
       .update({ is_playing: 'Y' })
       .eq('id', player_id);
 
+      startHeartbeat();
+
       
       const sc = document.getElementById('singer-choice');
       sc.innerHTML = '<option value=""></option>' +
@@ -81,6 +91,21 @@ document.querySelector(".start-button").addEventListener("click", async function
       main();
     }
 });
+
+async function startHeartbeat() {
+  stopHeartbeat(); // prevent duplicates
+  heartbeatInterval = setInterval(async () => {
+    if (!player_id) return;
+    await supabase
+      .from('attendees')
+      .update({ last_seen: new Date().toISOString() })
+      .eq('id', player_id);
+  }, 15000); // every 15 seconds
+}
+
+function stopHeartbeat() {
+  if (heartbeatInterval) clearInterval(heartbeatInterval);
+}
 
 document.querySelector(".submit-button").addEventListener("click", async function() {
   let guess_id = document.getElementById('singer-choice').value;
@@ -111,7 +136,7 @@ document.getElementById("players").addEventListener("change", function() {
 
 document.querySelector(".back-btn").addEventListener("click", async function() {
   if (!player_id) return;
-
+  stopHeartbeat();
   const url = `${supabaseUrl}/rest/v1/attendees?id=eq.${player_id}`;
   const body = JSON.stringify({ is_playing: 'N' });
 
@@ -143,7 +168,7 @@ document.querySelector(".back-btn").addEventListener("click", async function() {
 // in case of reloading or closing the app
 window.addEventListener("beforeunload", function() {
     if (!player_id) return;
-
+    stopHeartbeat();
     const url = `${supabaseUrl}/rest/v1/attendees?id=eq.${player_id}`;
     const body = JSON.stringify({ is_playing: 'N' });
   
