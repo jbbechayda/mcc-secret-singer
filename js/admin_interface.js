@@ -93,7 +93,7 @@ document.querySelector(".play-button").addEventListener("click", async function(
 
     console.log(current_game_status.id);
 
-    //get real time guesses
+    //get real time guesses 
     guessInterval = setInterval(fetchGuesses, 1000);
     fetchGuesses();
 });
