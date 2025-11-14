@@ -145,7 +145,6 @@ document.querySelector(".stop-button").addEventListener("click", async function(
         winner_id = winner.user_id;
         break;
       } else {
-          guessDiv.style.backgroundColor = 'red';
           checkDiv.style.display = 'block';
       }
       guessDiv.scrollIntoView({
@@ -199,6 +198,7 @@ function addGuess(id, player, guess) {
   check.id = `check_${id}`;
   check.textContent = '✘';
   check.style.float = 'right';
+  checkDiv.style.color = 'red';
   check.style.fontWeight = 'bold';
   check.style.display = 'none';
 
