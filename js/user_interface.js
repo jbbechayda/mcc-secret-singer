@@ -239,7 +239,7 @@ async function main(){
     if(current_game_status == 'GAME_START'){
       document.querySelector('.game-start').style.display = 'flex';
 
-      document.querySelector('.game-start .header').innerHTML = `MCC SECRET SINGER`;
+      document.querySelector('.game-start .header').innerHTML = `MCC HIDDEN SINGER`;
       document.querySelector('.game-start .game').innerHTML = `Welcome<br>${player.name}!<br><br>Please wait for the game to start.`;
     }
     else if(current_game_status == 'IDLE'){
@@ -255,7 +255,7 @@ async function main(){
       current_singer = singers[0];
 
       document.querySelector('.idle .header').innerHTML = `Playing as<br>${player.name}`;
-      document.querySelector('.idle .game').textContent = `Waiting for secret singer # ${current_singer.singer_num} to sing.`;
+      document.querySelector('.idle .game').textContent = `Waiting for hidden singer # ${current_singer.singer_num} to sing.`;
     }
     else if(current_game_status == 'SINGING'){
       document.querySelector('.singing').style.display = 'flex';
