@@ -35,7 +35,7 @@ const {data: singers, error} = await supabase
 
 if(singers.length > 0){
     current_singer = singers[0];
-    document.querySelector(".guess-title").textContent = `Secret Singer # ${current_singer.singer_num}`;
+    document.querySelector(".guess-title").textContent = `Hidden Singer # ${current_singer.singer_num}`;
 
     // set to IDLE
     const { data: insert, error: insert_error } = await supabase
@@ -107,7 +107,7 @@ document.querySelector(".stop-button").addEventListener("click", async function(
     .insert([{ status_id: 'WINNER', singer: current_singer.singer_num}]);
 
   // show the secret singer
-  document.querySelector('.guess-title').textContent = `The Secret Singer # ${current_singer.singer_num} is...`;
+  document.querySelector('.guess-title').textContent = `The Hidden Singer # ${current_singer.singer_num} is...`;
 
   document.querySelector('.drum').style.display = 'block';
 
