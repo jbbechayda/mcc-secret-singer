@@ -95,13 +95,14 @@ body, html {
   }
 
   .guess {
-    font-size: 30px;
-    padding: 10px 10px;
-    border: 1px solid white;
+    font-size: 1.5rem;
+    padding: 7px 10px;
     opacity: 0;
     transform: translateX(100%);
     transition: all 0.4s ease;
     text-align: start;
+    box-sizing: border-box;
+    border: 0.5px solid rgba(255, 255, 255, 0.37);
   }
 
   .guess.show {
@@ -120,7 +121,7 @@ body, html {
     font-size: 20px;
     font-weight: bold;
     color: white;
-    background-color: green;
+    background-color: rgb(139, 0, 0);;
     transition: transform .2s;
     cursor: pointer;
   }
@@ -406,4 +407,46 @@ body, html {
     0%   { transform: scale(0.6); opacity: 1; }
     50%   { transform: scale(1.6); opacity: 0.3; }
     100% { transform: scale(0.6); opacity: 1; }
+  }
+
+  :root{
+    --bubble-bg: white;
+    --bubble-color: rgb(139, 0, 0);
+    --bubble-radius: 14px;
+    --bubble-padding: 10px 20px;
+    --bubble-maxw: 60ch;
+    --bubble-tail-size: 8px; /* size of triangle tail */
+  }
+  
+  .bubble{
+    display: inline-block;           /* lets us add padding/width */
+    position: relative;              /* for the pseudo-element tail */
+    background: var(--bubble-bg);
+    color: var(--bubble-color);
+    padding: var(--bubble-padding);
+    border-radius: var(--bubble-radius);
+    line-height: 1.2;
+    font-weight: bold;
+    max-width: var(--bubble-maxw);
+    word-wrap: break-word;
+    box-shadow: 0 4px 10px rgba(2,32,39,0.06);
+    font-size: 1.3rem;
+    align-self: center;
+    vertical-align: middle;
+  }
+  
+  /* LEFT pointing tail (bubble sits right-of-tail) */
+  .bubble.left{
+    margin-left: 0.6rem; /* small spacing if inline with other text */
+  }
+  .bubble.left::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    border-width: var(--bubble-tail-size);
+    border-style: solid;
+    border-color: transparent var(--bubble-bg) transparent transparent;
+    filter: drop-shadow(0 1px 0 rgba(2,32,39,0.02));
   }
