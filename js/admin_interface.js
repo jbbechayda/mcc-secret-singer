@@ -138,13 +138,14 @@ document.querySelector(".stop-button").addEventListener("click", async function(
       if (guessDiv.id === `${winner.user_id}_${winner.guess_id}`) {
           checkDiv.textContent = '✔';
           checkDiv.style.color = 'white';
-          guessDiv.style.backgroundColor = 'green'
+          guessDiv.style.backgroundColor = 'green';
           checkDiv.style.display = 'block';
 
         // record the winner
         winner_id = winner.user_id;
         break;
       } else {
+          guessDiv.style.backgroundColor = 'red';
           checkDiv.style.display = 'block';
       }
       guessDiv.scrollIntoView({
@@ -187,24 +188,25 @@ document.querySelector(".next-button").addEventListener("click", function() {
   }, 2000);
 });
 
-function addGuess(id, guess) {
+function addGuess(id, player, guess) {
   if(document.getElementById(id)){
     return;
   }
   const div = document.createElement('div');
   div.className = 'guess';
   div.id = id;
-  div.textContent = guess;
-
-  const check = document.createElement('span');
+    const check = document.createElement('span');
   check.id = `check_${id}`;
   check.textContent = '✘';
-  check.style.color = 'red';
-  check.style.fontWeight = 'bold';
   check.style.float = 'right';
+  check.style.fontWeight = 'bold';
   check.style.display = 'none';
 
   div.appendChild(check);
+
+  div.innerHTML += `
+    ${player} <span class="bubble left">${guess}</span>
+  `;
 
   guessList.appendChild(div);
 
@@ -248,7 +250,7 @@ async function fetchGuesses() {
       if (player && entry_guess) {
         text = `${player.name} : ${entry_guess.name}`;
         let div_id = `${entry.user_id}_${entry.guess_id}`;
-        addGuess(div_id, text);
+        addGuess(div_id, player.name, entry_guess.name);
         guessArray.push(entry);
       }
     }
