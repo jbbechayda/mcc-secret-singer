@@ -198,7 +198,7 @@ function addGuess(id, player, guess) {
   check.id = `check_${id}`;
   check.textContent = '✘';
   check.style.float = 'right';
-  checkDiv.style.color = 'red';
+  check.style.color = 'red';
   check.style.fontWeight = 'bold';
   check.style.display = 'none';
 
