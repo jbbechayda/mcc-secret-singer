@@ -121,7 +121,7 @@ body, html {
     font-size: 20px;
     font-weight: bold;
     color: white;
-    background-color: rgb(139, 0, 0);;
+    background-color: rgb(139, 0, 0);
     transition: transform .2s;
     cursor: pointer;
   }
