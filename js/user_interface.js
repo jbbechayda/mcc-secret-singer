@@ -300,17 +300,28 @@ async function main(){
       .eq('user_id', player.id)
       .limit(1);
 
+      let guess_name;
       if (guess.length > 0){
+        guess_id_input = guess[0].guess_id;
         const { data: pick } = await supabase
         .from('attendees')
         .select('*')
         .eq('id', guess[0].guess_id)
         .limit(1);
         document.getElementById('singer-choice').value = guess[0].guess_id;
+        guess_name = pick[0].name;
+      }
+      else {
+        const { data: pick } = await supabase
+        .from('attendees')
+        .select('*')
+        .eq('id', document.getElementById('singer-choice').value)
+        .limit(1);
+        guess_name = pick[0].name;
       }
 
       document.querySelector('.winner .header').textContent = `Playing as ${player.name}`;
-      document.querySelector('.winner .game').textContent = `Evaluating the winner...`;
+      document.querySelector('.winner .game').innerHTML = `You picked ${guess_name}.<br>Evaluating the winner...`;
 
       fetchWinnerInterval = setInterval(fetchWinner, 500);
       fetchWinner();
