@@ -205,15 +205,15 @@ async function fetchWinner(){
 
   if (winner.player_id){
     if (player.id == winner.player_id){
-      document.querySelector('.winner .game').textContent = `✔ You guessed correctly!`;
+      document.querySelector('.winner .game').textContent = `✔ Your guess is correct!`;
     }
 
     else{
       if (document.getElementById('singer-choice').value == winner.singer_id){
-        document.querySelector('.winner .game').textContent = `✘ You guessed right but someone got it first. `;
+        document.querySelector('.winner .game').textContent = `✘ You guess is correct but someone got it first. `;
       }
       else{
-        document.querySelector('.winner .game').textContent = `✘ You guessed wrong. `;
+        document.querySelector('.winner .game').textContent = `✘ Your guess is incorrect. `;
       }
     }
     clearInterval(fetchWinnerInterval);
@@ -282,7 +282,7 @@ async function main(){
       }
 
       document.querySelector('.singing .header').textContent = `Playing as ${player.name}`;
-      document.querySelector('.singing .game .label').innerHTML = `Singing...<br>Select a name:`;
+      document.querySelector('.singing .game .label').innerHTML = `Singing...<br>Guess the hidden singer:`;
       document.querySelector('.pick').textContent = ``;
 
       document.querySelector('.submit-button').style.display = 'block';
