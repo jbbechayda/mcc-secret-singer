@@ -4,17 +4,98 @@ const supabaseUrl = 'https://ztfdmvegomhnujwvjmft.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0ZmRtdmVnb21obnVqd3ZqbWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyOTM1ODYsImV4cCI6MjA3Nzg2OTU4Nn0.btKAOSkwFZAR3y8I6fuK4MtwExeTollGeQYs8Jcek8U'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// const { data: attendees, error: attendees_error } = await supabase
+//   .from('attendees')
+//   .select('*')
+//   .order('name', { ascending: true });
+
+// const select = document.getElementById("players");
+
+// select.innerHTML = '<option value=""></option>' +
+//   attendees
+//     .map(p => `<option value="${p.id}">${p.name}</option>`)
+//     .join('');
+
 const { data: attendees, error: attendees_error } = await supabase
   .from('attendees')
   .select('*')
   .order('name', { ascending: true });
 
-const select = document.getElementById("players");
+// PLAYER
+const input = document.getElementById("player-search");
+const results = document.getElementById("player-results");
 
-select.innerHTML = '<option value=""></option>' +
-  attendees
-    .map(p => `<option value="${p.id}">${p.name}</option>`)
-    .join('');
+// Hide dropdown initially
+results.classList.add("hidden");
+
+input.addEventListener("input", () => {
+  const query = input.value.toLowerCase();
+
+  if (query.trim() === "") {
+    results.innerHTML = "";
+    results.classList.add("hidden");
+    return;
+  }
+
+  results.style.width = `${input.offsetWidth}px`;
+
+  const filtered = attendees.filter(p =>
+    p.name.toLowerCase().includes(query)
+  );
+
+  results.innerHTML = filtered
+    .map(p => `<li data-id="${p.id}">${p.name}</li>`)
+    .join("");
+
+  results.classList.remove("hidden");
+});
+
+// Click-to-select
+results.addEventListener("click", (e) => {
+  if (e.target.matches("li")) {
+    input.value = e.target.textContent;
+    input.dataset.playerId = e.target.dataset.id;
+    results.classList.add("hidden");
+  }
+});
+
+// SINGER
+const singerSearch = document.getElementById("singer-search");
+const singerResults = document.getElementById("singer-results");
+
+// Hide dropdown initially
+singerResults.classList.add("hidden");
+
+singerSearch.addEventListener("input", () => {
+  const query = singerSearch.value.toLowerCase();
+
+  if (query.trim() === "") {
+    singerResults.innerHTML = "";
+    singerResults.classList.add("hidden");
+    return;
+  }
+
+  singerResults.style.width = `${singerSearch.offsetWidth}px`;
+
+  const filtered = attendees
+    .filter(p => p.id != player.id)
+    .filter(p => p.name.toLowerCase().includes(query));
+
+  singerResults.innerHTML = filtered
+    .map(p => `<li data-id="${p.id}">${p.name}</li>`)
+    .join("");
+
+    singerResults.classList.remove("hidden");
+});
+
+// Click-to-select
+singerResults.addEventListener("click", (e) => {
+  if (e.target.matches("li")) {
+    singerSearch.value = e.target.textContent;
+    singerSearch.dataset.playerId = e.target.dataset.id;
+    singerResults.classList.add("hidden");
+  }
+});
 
 let player;
 let current_singer;
@@ -45,7 +126,7 @@ await supabase
 
 document.querySelector(".start-button").addEventListener("click", async function() {
   
-  let selected = select.value;
+  let selected = input.dataset.playerId;
   if (!selected){
     document.querySelector(".error-message").innerHTML = "Please select a player.";
     return;
@@ -76,12 +157,12 @@ document.querySelector(".start-button").addEventListener("click", async function
       startHeartbeat();
 
       
-      const sc = document.getElementById('singer-choice');
-      sc.innerHTML = '<option value=""></option>' +
-      attendees
-        .filter(p => p.id != player.id)
-        .map(p => `<option value="${p.id}">${p.name}</option>`)
-        .join('');
+      // const sc = document.getElementById('singer-choice');
+      // sc.innerHTML = '<option value=""></option>' +
+      // attendees
+      //   .filter(p => p.id != player.id)
+      //   .map(p => `<option value="${p.id}">${p.name}</option>`)
+      //   .join('');
       
       document.querySelector(".player-selection").style.display = 'none';
       document.querySelector(".game-screen").style.display = 'flex';
@@ -108,14 +189,16 @@ function stopHeartbeat() {
 }
 
 document.querySelector(".submit-button").addEventListener("click", async function() {
-  let guess_id = document.getElementById('singer-choice').value;
+  // let guess_id = document.getElementById('singer-choice').value;
+  let guess_id = document.getElementById('singer-search').dataset.playerId;
   if (guess_id){
     const { data: insert, error: insert_error } = await supabase
     .from('user_guesses')
     .insert([{ game_status_id : game_status.id, user_id : player_id, guess_id : guess_id}]);
 
     document.querySelector('.submit-button').style.display = 'none';
-    document.getElementById('singer-choice').style.display = 'none';
+    // document.getElementById('singer-choice').style.display = 'none';
+    document.getElementById('singer-search').style.display = 'none';
     document.querySelector(".singing .game .label").style.display = 'none';
 
     const { data: pick } = await supabase
@@ -128,11 +211,11 @@ document.querySelector(".submit-button").addEventListener("click", async functio
   }
 });
 
-document.getElementById("players").addEventListener("change", function() {
-  if (select.value){
-    document.querySelector(".error-message").innerHTML = "";
-  }
-});
+// document.getElementById("players").addEventListener("change", function() {
+//   if (select.value){
+//     document.querySelector(".error-message").innerHTML = "";
+//   }
+// });
 
 document.querySelector(".back-btn").addEventListener("click", async function() {
   if (!player_id) return;
@@ -209,7 +292,8 @@ async function fetchWinner(){
     }
 
     else{
-      if (document.getElementById('singer-choice').value == winner.singer_id){
+      // if (document.getElementById('singer-choice').value == winner.singer_id){
+        if (Number(document.getElementById('singer-search').dataset.playerId) == winner.singer_id){
         document.querySelector('.winner .game').textContent = `✘ You guess is correct but someone got it first. `;
       }
       else{
@@ -258,9 +342,13 @@ async function main(){
       document.querySelector('.idle .game').textContent = `Waiting for hidden singer # ${current_singer.singer_num} to sing.`;
     }
     else if(current_game_status == 'SINGING'){
+      singerSearch.value = '';
+      singerSearch.dataset.playerId = '';
+
       document.querySelector('.singing').style.display = 'flex';
       document.querySelector('.submit-button').style.display = 'none';
-      document.getElementById('singer-choice').style.display = 'none';
+      // document.getElementById('singer-choice').style.display = 'none';
+      document.getElementById('singer-search').style.display = 'none';
       document.querySelector(".singing .game .label").style.display = 'none';
 
       let {data: guess, error} = await supabase
@@ -286,7 +374,8 @@ async function main(){
       document.querySelector('.pick').textContent = ``;
 
       document.querySelector('.submit-button').style.display = 'block';
-      document.getElementById('singer-choice').style.display = 'block';
+      // document.getElementById('singer-choice').style.display = 'block';
+      document.getElementById('singer-search').style.display = 'block';
       document.querySelector(".singing .game .label").style.display = 'block';
       
     }
@@ -308,14 +397,16 @@ async function main(){
         .select('*')
         .eq('id', guess[0].guess_id)
         .limit(1);
-        document.getElementById('singer-choice').value = guess[0].guess_id;
+        // document.getElementById('singer-choice').value = guess[0].guess_id;
+        document.getElementById('singer-search').dataset.playerId = guess[0].guess_id;
         guess_name = pick[0].name;
       }
       else {
         const { data: pick } = await supabase
         .from('attendees')
         .select('*')
-        .eq('id', document.getElementById('singer-choice').value)
+        // .eq('id', document.getElementById('singer-choice').value)
+        .eq('id', document.getElementById('singer-search').dataset.playerId)
         .limit(1);
         guess_name = pick[0].name;
       }
