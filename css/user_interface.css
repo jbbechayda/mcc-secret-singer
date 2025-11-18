@@ -137,3 +137,8 @@ body, html {
 .hidden {
   display: none;
 }
+
+.blur {
+  background-color: rgb(136, 68, 68);
+  color: rgb(148, 148, 148);
+}
