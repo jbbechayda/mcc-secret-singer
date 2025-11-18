@@ -364,7 +364,8 @@ async function main(){
         .select('*')
         .eq('id', guess[0].guess_id)
         .limit(1);
-        document.getElementById('singer-choice').value = guess[0].guess_id;
+        // document.getElementById('singer-choice').value = guess[0].guess_id;
+        document.getElementById('singer-search').dataset.playerId = `${guess[0].guess_id}`;
         document.querySelector(".pick").innerHTML = `You picked ${pick[0].name}.<br>Wait for the singer to finish.`;
         return;
       }
