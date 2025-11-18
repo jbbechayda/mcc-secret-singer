@@ -16,6 +16,12 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 //     .map(p => `<option value="${p.id}">${p.name}</option>`)
 //     .join('');
 
+const startBtn = document.querySelector('.start-button');
+const submitBtn = document.querySelector('.submit-button');
+
+startBtn.disabled = true;
+submitBtn.disabled = true;
+
 const { data: attendees, error: attendees_error } = await supabase
   .from('attendees')
   .select('*')
@@ -25,10 +31,12 @@ const { data: attendees, error: attendees_error } = await supabase
 const input = document.getElementById("player-search");
 const results = document.getElementById("player-results");
 
-// Hide dropdown initially
 results.classList.add("hidden");
 
 input.addEventListener("input", () => {
+  startBtn.disabled = true;
+  startBtn.classList.add("blur");
+
   const query = input.value.toLowerCase();
 
   if (query.trim() === "") {
@@ -57,6 +65,19 @@ results.addEventListener("click", (e) => {
     input.dataset.playerId = e.target.dataset.id;
     results.classList.add("hidden");
   }
+  startBtn.disabled = false;
+  startBtn.classList.remove("blur");
+});
+
+// Click outside to close results
+document.addEventListener("click", (e) => {
+  if (!results.contains(e.target) && e.target !== input) {
+    results.classList.add("hidden");
+
+    // If input value doesn't match a valid selection, keep button disabled
+    const selected = attendees.find(p => p.name === input.value);
+    startBtn.disabled = !selected;
+  }
 });
 
 // SINGER
@@ -67,6 +88,8 @@ const singerResults = document.getElementById("singer-results");
 singerResults.classList.add("hidden");
 
 singerSearch.addEventListener("input", () => {
+  submitBtn.disabled = true;
+  submitBtn.classList.add("blur");
   const query = singerSearch.value.toLowerCase();
 
   if (query.trim() === "") {
@@ -94,6 +117,19 @@ singerResults.addEventListener("click", (e) => {
     singerSearch.value = e.target.textContent;
     singerSearch.dataset.playerId = e.target.dataset.id;
     singerResults.classList.add("hidden");
+  }
+  submitBtn.disabled = false;
+  submitBtn.classList.remove("blur");
+});
+
+// Click outside to close results
+document.addEventListener("click", (e) => {
+  if (!singerResults.contains(e.target) && e.target !== input) {
+    singerResults.classList.add("hidden");
+
+    // If input value doesn't match a valid selection, keep button disabled
+    const selected = attendees.find(p => p.name === input.value);
+    submitBtn.disabled = !selected;
   }
 });
 
