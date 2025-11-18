@@ -15,9 +15,11 @@
             <div class="select-player">
                 <div class="label">Select your name</div>
                 <div class="value">
-                    <select name="players" id="players">
+                    <!-- <select name="players" id="players">
                         <option value=""></option>
-                    </select>
+                    </select> -->
+                    <input type="text" id="player-search" placeholder="Search player...">
+                    <ul id="player-results" class="hidden"></ul>
                 </div>
                 <div class="error-message"></div>
             </div>
@@ -44,9 +46,12 @@
             <div class="game">
                 <div class="label"></div>
                 <div class="value">
-                    <select name="singer-choice" id="singer-choice">
+                    <!-- <select name="singer-choice" id="singer-choice">
                         <option value=""></option>
-                    </select>
+                    </select> -->
+
+                    <input type="text" id="singer-search" placeholder="Search singer...">
+                    <ul id="singer-results" class="hidden"></ul>
                 </div>
                 <button class="submit-button">SUBMIT</button>
                 <div class="pick"></div>
