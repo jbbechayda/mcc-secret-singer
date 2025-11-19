@@ -15,12 +15,14 @@ body, html {
   box-sizing: border-box;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .title, .subtext, .qr {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 .title {
@@ -102,4 +104,30 @@ body, html {
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .spotlight-left {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    
+  }
+
+  .spotlight-right {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    height: 100%;
+  }
+  
+  .spotlight {
+    height: 100%;
+  }
+
+  .right {
+    transform: scaleX(-1);
+    transform-origin: center;
   }
