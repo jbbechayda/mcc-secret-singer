@@ -111,12 +111,24 @@ document.querySelector(".stop-button").addEventListener("click", async function(
 
   document.querySelector('.drum').style.display = 'block';
 
-  await new Promise(r => setTimeout(r, 5000));
+  var drumroll = document.getElementById('drumroll');
+  drumroll.play();  // Play the audio once
+
+  drumroll.loop = false;
+
+  await new Promise(r => setTimeout(r, 7000));
 
   document.querySelector('.singer-name').textContent = `${current_singer.name}!`;
   document.querySelector('.drum').style.display = 'none';
-  
+
   await new Promise(r => setTimeout(r, 1000));
+
+  var trumpet = document.getElementById('trumpet');
+  trumpet.play();  // Play the audio once
+
+  trumpet.loop = false;
+  
+  await new Promise(r => setTimeout(r, 3000));
 
   // get the winner
   for (const entry of guessArray) {
